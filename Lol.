@@ -1,0 +1,63 @@
+import pygame 
+import os
+pygame.init()
+
+
+FPS = 30
+
+WIDTH = 600
+HEIGHT = 400
+BirdImg = [ pygame.image.load(os.path.join('skeleton-animation_00.png')),
+pygame.image.load(os.path.join('skeleton-animation_01.png')),
+pygame.image.load(os.path.join('skeleton-animation_02.png')),
+pygame.image.load(os.path.join('skeleton-animation_03.png')),
+pygame.image.load(os.path.join('skeleton-animation_04.png')),
+pygame.image.load(os.path.join('skeleton-animation_05.png')),
+pygame.image.load(os.path.join('skeleton-animation_06.png')),
+pygame.image.load(os.path.join('skeleton-animation_07.png')),
+pygame.image.load(os.path.join('skeleton-animation_08.png')),
+pygame.image.load(os.path.join('skeleton-animation_09.png')),
+pygame.image.load(os.path.join('skeleton-animation_10.png')),
+]
+x = 0
+y = 0
+white = (255, 255, 255)
+window = pygame.display.set_mode((WIDTH, HEIGHT))
+
+def Bird():
+	window.blit(BirdImg[0], (x,y))
+
+
+clock = pygame.time.Clock()
+frame = 0
+
+crashed = False
+next_tick = 100
+while not crashed:
+	left_speed = 0
+	right_speed = 0
+	up_speed = 0
+	down_speed = 0
+	clock.tick(FPS)
+	window.fill(white)
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			crashed = True
+	if pygame.time.get_ticks() > next_tick:
+		next_tick += 100
+		frame = (frame + 1) % 4
+
+	if event.type == pygame.KEYDOWN:
+		if event.key == pygame.K_LEFT:
+			left_speed = -5
+		if event.key == pygame.K_RIGHT:
+			right_speed = 5
+		if event.key == pygame.K_UP:
+			up_speed = -5
+		if event.key == pygame.K_DOWN:
+			down_speed = 5
+	x+= left_speed + right_speed
+	y+= up_speed + down_speed
+	Bird()
+	pygame.display.update()
+print(pygame.time.get_ticks())
