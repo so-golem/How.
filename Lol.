@@ -5,8 +5,8 @@ pygame.init()
 
 FPS = 30
 
-WIDTH = 600
-HEIGHT = 400
+WIDTH = 1250
+HEIGHT = 600
 BirdImg = [ pygame.image.load(os.path.join('skeleton-animation_00.png')),
 pygame.image.load(os.path.join('skeleton-animation_01.png')),
 pygame.image.load(os.path.join('skeleton-animation_02.png')),
@@ -23,6 +23,11 @@ x = 0
 y = 0
 white = (255, 255, 255)
 window = pygame.display.set_mode((WIDTH, HEIGHT))
+class Main_Music():
+	def __init__(self):
+		pygame.mixer.music.load('03 Main Menu 2.mp3')
+		pygame.mixer.music.set_volume(0.5)
+		pygame.mixer.music.play()
 
 def Bird():
 	window.blit(BirdImg[0], (x,y))
@@ -33,6 +38,7 @@ frame = 0
 
 crashed = False
 next_tick = 100
+Main_Music()
 while not crashed:
 	left_speed = 0
 	right_speed = 0
