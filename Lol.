@@ -1,5 +1,7 @@
 import pygame 
 import os
+import random
+from time import sleep
 pygame.init()
 
 
@@ -19,25 +21,38 @@ pygame.image.load(os.path.join('skeleton-animation_08.png')),
 pygame.image.load(os.path.join('skeleton-animation_09.png')),
 pygame.image.load(os.path.join('skeleton-animation_10.png')),
 ]
+EnemyImg = pygame.image.load('dsake.png')
 x = 0
 y = 0
+lol = 1000
+why = 200
+bg = pygame.image.load("ssdfsdg.png")
+me = 1000 #tree x
+you = 200 #tree y
 white = (255, 255, 255)
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 class Main_Music():
 	def __init__(self):
-		pygame.mixer.music.load('03 Main Menu 2.mp3')
-		pygame.mixer.music.set_volume(0.5)
-		pygame.mixer.music.play()
-
+		pygame.mixer.music.load('Turtle_Crusher (mp3cut.net).mp3')
+		pygame.mixer.music.set_volume(0.3)
+		pygame.mixer.music.play(loops=-1)
+TreeImg = pygame.image.load('lolololol.png')
 def Bird():
 	window.blit(BirdImg[0], (x,y))
+
+def Tree():
+	window.blit(TreeImg, (me,you))
+
+def Enemy():
+	window.blit(EnemyImg, (lol,why))
 
 
 clock = pygame.time.Clock()
 frame = 0
-
 crashed = False
 next_tick = 100
+bird_frame = 0
+speed = 4
 Main_Music()
 while not crashed:
 	left_speed = 0
@@ -52,6 +67,16 @@ while not crashed:
 	if pygame.time.get_ticks() > next_tick:
 		next_tick += 100
 		frame = (frame + 1) % 4
+	window.blit(bg, [0, 0])
+	if pygame.time.get_ticks() > next_tick:
+		if x > 0:
+			next_tick += 80
+		elif x < 0:
+			next_tick += 120
+		else:
+			next_tick += 100
+		bird_frame = (bird_frame + 1) % 4
+
 
 	if event.type == pygame.KEYDOWN:
 		if event.key == pygame.K_LEFT:
@@ -62,8 +87,20 @@ while not crashed:
 			up_speed = -5
 		if event.key == pygame.K_DOWN:
 			down_speed = 5
+	me -= 10
+	why -= speed
+	if why + 50 > HEIGHT:
+		speed = -1 * speed
+	if why < 50:
+		speed = -1 * speed
+	if me < -200:
+		me = 1200
+		you = random.randint(0, 600)
 	x+= left_speed + right_speed
 	y+= up_speed + down_speed
 	Bird()
+	Tree()
+	Enemy()
 	pygame.display.update()
+
 print(pygame.time.get_ticks())
